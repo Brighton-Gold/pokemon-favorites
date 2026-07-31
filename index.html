@@ -1,1 +1,54 @@
-<div id="pokemon-grid"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pokémon Favorites</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>Pokédex Favorites</h1>
+    <p class="subtitle">Pick your favorites and least favorites to find similar Pokémon</p>
+    <div class="filter-bar">
+      <input type="text" id="search" placeholder="Search by name…" />
+      <select id="type-filter">
+        <option value="">All Types</option>
+      </select>
+      <button id="show-results-btn" disabled>⚡ Show Similarities</button>
+    </div>
+    <div class="legend">
+      <span class="badge fave-badge">❤️ Favorite</span>
+      <span class="badge dislike-badge">👎 Least Favorite</span>
+    </div>
+  </header>
+
+  <div id="loading" class="loading">
+    <div class="pokeball"></div>
+    <p>Loading Pokémon…</p>
+  </div>
+
+  <main id="pokemon-grid" class="hidden"></main>
+
+  <!-- Similarities Modal -->
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div class="modal">
+      <button id="close-modal">✕</button>
+      <h2>Pokémon Similar to Your Picks</h2>
+      <div class="modal-sections">
+        <div>
+          <h3>❤️ Similar to your favorites</h3>
+          <div id="fave-results" class="result-grid"></div>
+        </div>
+        <div>
+          <h3>👎 Similar to your least favorites</h3>
+          <div id="dislike-results" class="result-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
