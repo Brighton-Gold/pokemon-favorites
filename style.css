@@ -5,27 +5,120 @@
 }
 
 body {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
-  background-color: #2c3e50;
+  background-color: #1a1a2e;
   color: #ffffff;
-  text-align: center;
-}
-
-main {
-  padding: 2rem;
+  font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
 }
 
 h1 {
+  text-align: center;
+  padding: 2rem;
   font-size: 2.5rem;
-  margin-bottom: 0.5rem;
   color: #f1c40f;
 }
 
-p {
-  font-size: 1.1rem;
-  color: #ecf0f1;
+/* The grid layout */
+#pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  padding: 1rem 2rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Each card */
+.card {
+  background: #0f3460;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.card img {
+  width: 80px;
+  height: 80px;
+  image-rendering: pixelated;
+}
+
+.card p {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.types {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.type {
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.type.normal   { background: #9a9a7a; }
+.type.fire     { background: #ee8130; }
+.type.water    { background: #6390f0; }
+.type.electric { background: #c8a800; }
+.type.grass    { background: #5a9e30; }
+.type.ice      { background: #5ab8b5; }
+.type.fighting { background: #c22e28; }
+.type.poison   { background: #a33ea1; }
+.type.ground   { background: #b8903a; }
+.type.flying   { background: #7a6fd0; }
+.type.psychic  { background: #d42060; }
+.type.bug      { background: #7a8a10; }
+.type.rock     { background: #b6a136; }
+.type.ghost    { background: #6a4a97; }
+.type.dragon   { background: #6030e0; }
+.type.dark     { background: #5a4030; }
+.type.steel    { background: #7a7a9a; }
+.type.fairy    { background: #c060a0; }
+
+.card-id {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  font-size: 0.65rem;
+  color: #8892a4;
+  font-weight: 600;
+}
+
+.card-indicator {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 1rem;
+}
+
+/* Make card relative so the absolute children position correctly */
+.card {
+  position: relative;
+}
+
+.card.fave {
+  border: 2px solid #e94560;
+  background: rgba(233, 69, 96, 0.18);
+  box-shadow: 0 0 16px rgba(233, 69, 96, 0.3);
+}
+
+.card.dislike {
+  border: 2px solid #556;
+  opacity: 0.6;
 }
