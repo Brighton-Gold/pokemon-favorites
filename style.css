@@ -122,3 +122,25 @@ h1 {
   border: 2px solid #556;
   opacity: 0.6;
 }
+
+#search-bar {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 2rem;
+}
+
+#search {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #334;
+  background: #0f3460;
+  color: #ffffff;
+  font-size: 1rem;
+  outline: none;
+}
+
+#search:focus {
+  border-color: #e94560;
+}
