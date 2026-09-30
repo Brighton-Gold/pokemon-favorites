@@ -1,14 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pokédex</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
 <body>
-  <main>
+
+  <header>
     <h1>Pokédex</h1>
-     <div id="search-bar">
-    <input type="text" id="search" placeholder="Search Pokémon…" />
+    <div id="search-bar">
+      <input type="text" id="search" placeholder="Search Pokémon…" />
+    </div>
+  </header>
+
+  <div id="app">
+
+    <!-- Left Sidebar -->
+    <aside id="left-sidebar" class="sidebar">
+      <div class="sidebar-tab" id="left-tab">☰</div>
+      <div class="sidebar-content">
+        <h2>My Selections</h2>
+
+        <div class="selection-section">
+          <h3>❤️ Favorites</h3>
+          <div id="fave-list"></div>
+        </div>
+
+        <div class="selection-section">
+          <h3>👎 Least Favorites</h3>
+          <div id="dislike-list"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Grid -->
+    <main id="pokemon-grid"></main>
+
+    <!-- Right Sidebar -->
+    <aside id="right-sidebar" class="sidebar">
+      <div class="sidebar-tab" id="right-tab">☰</div>
+      <div class="sidebar-content">
+        <h2>Comparisons</h2>
+        <button id="compare-btn">⚡ Compare</button>
+        <div id="comparison-results">
+          <p class="empty-msg">Select some favorites and least favorites then hit Compare!</p>
+        </div>
+      </div>
+    </aside>
+
   </div>
-    <div id="pokemon-grid"></div>
-  </main>
 
   <script src="script.js"></script>
-  <head>
-  <link rel="stylesheet" href="style.css">
-</head>
 </body>
+</html>

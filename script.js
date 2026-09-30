@@ -1,5 +1,7 @@
 console.log("script.js is connected!");
 
+let allPokemon = [];
+
 /**************************************************************
  * Determines the generation of a Pokémon based on its ID.
  * @param {number} id - The Pokémon's ID.
@@ -26,7 +28,7 @@ function getGeneration(id) {
 async function fetchPokemon() {
   const cached = localStorage.getItem("pokemonData");
   if (cached) {
-    const allPokemon = JSON.parse(cached);
+    allPokemon = JSON.parse(cached);
     console.log("Loaded from cache! Total:", allPokemon.length);
     return allPokemon;
   }
@@ -42,7 +44,7 @@ async function fetchPokemon() {
   const details = await Promise.all(promises);
 
   // Pokémon information that we want to store in localStorage for future use. This includes the id, name, sprite, types, stats, and generation of each Pokémon.
-  const allPokemon = details.map((d) => ({
+  allPokemon = details.map((d) => ({
     id: d.id,
     name: d.name,
     sprite: d.sprites.front_default,
@@ -63,13 +65,11 @@ function setupSearch(allPokemon) {
     const query = search.value.toLowerCase().trim();
     const grid  = document.getElementById("pokemon-grid");
 
-    // Clear the grid
     grid.innerHTML = "";
-
-    // Only show pokemon whose name matches the search
     const filtered = allPokemon.filter(p => p.name.includes(query));
     displayPokemon(filtered);
     loadSelections();
+    updateLeftSidebar();
   });
 }
 
@@ -110,19 +110,27 @@ function displayPokemon(allPokemon) {
 
       // Save selections after every click
       saveSelections();
+      updateLeftSidebar();
     });
 
     grid.appendChild(card);
   });
 }
 
+// ✅ Merge visible cards with already saved selections
 function saveSelections() {
-  const cards = document.querySelectorAll(".card");
-  const selections = {};
+  // Start with what's already saved
+  const selections = JSON.parse(localStorage.getItem("selections") || "{}");
 
+  // Update only the cards currently visible in the DOM
+  const cards = document.querySelectorAll(".card");
   cards.forEach(card => {
     if (card.dataset.state) {
+      // Add or update this pokemon
       selections[card.dataset.name] = card.dataset.state;
+    } else {
+      // If card exists in DOM but has no state, remove it from saved
+      delete selections[card.dataset.name];
     }
   });
 
@@ -149,12 +157,86 @@ function loadSelections(allPokemon) {
   });
 }
 
+function updateLeftSidebar() {
+  const faveList    = document.getElementById("fave-list");
+  const dislikeList = document.getElementById("dislike-list");
+
+  faveList.innerHTML    = "";
+  dislikeList.innerHTML = "";
+
+  // Read from localStorage instead of the DOM
+  const saved = JSON.parse(localStorage.getItem("selections") || "{}");
+
+  let faveCount    = 0;
+  let dislikeCount = 0;
+
+  Object.entries(saved).forEach(([name, state]) => {
+    // Look up the sprite from allPokemon array
+    const pokemon = allPokemon.find(p => p.name === name);
+    if (!pokemon) return;
+
+    const item = document.createElement("div");
+    item.className = "selected-pokemon";
+    item.innerHTML = `
+      <img src="${pokemon.sprite}" alt="${name}" />
+      <span>${name}</span>
+      <button data-name="${name}">✕</button>
+    `;
+
+    item.querySelector("button").addEventListener("click", () => {
+      // Remove from localStorage
+      const selections = JSON.parse(localStorage.getItem("selections") || "{}");
+      delete selections[name];
+      localStorage.setItem("selections", JSON.stringify(selections));
+
+      // Update the card in the DOM if it's currently visible
+      const targetCard = document.querySelector(`.card[data-name="${name}"]`);
+      if (targetCard) {
+        delete targetCard.dataset.state;
+        targetCard.classList.remove("fave", "dislike");
+        targetCard.querySelector(".card-indicator").textContent = "";
+      }
+
+      updateLeftSidebar();
+    });
+
+    if (state === "fave") {
+      faveList.appendChild(item);
+      faveCount++;
+    } else {
+      dislikeList.appendChild(item);
+      dislikeCount++;
+    }
+  });
+
+  if (faveCount === 0)    faveList.innerHTML    = "<p class='empty-msg'>No favorites yet!</p>";
+  if (dislikeCount === 0) dislikeList.innerHTML = "<p class='empty-msg'>No dislikes yet!</p>";
+}
+
+function setupSidebars() {
+  const leftSidebar  = document.getElementById("left-sidebar");
+  const rightSidebar = document.getElementById("right-sidebar");
+  const leftTab      = document.getElementById("left-tab");
+  const rightTab     = document.getElementById("right-tab");
+
+  leftTab.addEventListener("click", () => {
+    leftSidebar.classList.toggle("collapsed");
+    leftTab.textContent = leftSidebar.classList.contains("collapsed") ? "»" : "«";
+  });
+
+  rightTab.addEventListener("click", () => {
+    rightSidebar.classList.toggle("collapsed");
+    rightTab.textContent = rightSidebar.classList.contains("collapsed") ? "«" : "»";
+  });
+}
 // Run both functions together
 async function init() {
   const allPokemon = await fetchPokemon();
   displayPokemon(allPokemon);
   loadSelections(); 
   setupSearch(allPokemon);
+  setupSidebars();
+  updateLeftSidebar();
 }
 
 init();
