@@ -87,6 +87,7 @@ async function init() {
   setupSearch(allPokemon);
   setupSidebars();
   updateLeftSidebar();
+  document.getElementById("compare-btn").addEventListener("click", comparePokemon);
 }
 
 init();

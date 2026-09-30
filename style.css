@@ -285,3 +285,62 @@ main {
   transition: opacity 0.2s;
 }
 #compare-btn:hover { opacity: 0.85; }
+
+.comparison-section {
+  margin-bottom: 1.5rem;
+}
+
+.comparison-section h3 {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+}
+
+.comparison-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.comparison-col {
+  background: var(--card);
+  border-radius: 8px;
+  padding: 0.6rem;
+}
+
+.col-label {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.3rem;
+  font-size: 0.75rem;
+}
+
+.stat-name {
+  text-transform: capitalize;
+  color: var(--muted);
+}
+
+.stat-value {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.stat-count {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.gen-result {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text);
+  padding: 0.3rem 0;
+}
